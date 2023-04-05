@@ -2,23 +2,28 @@
 
 // var geoJSON = 'Resources/us-county-boundaries_catxva.geojson'
 var geoJSON2 = 'new_file.json'
-
-d3.json(geoJSON2).then(d => {
-    console.log(d.features.length);
-})
-var chooser = document.getElementById('selDataset')
+var chooser = document.getElementById('selDataset');
 var selDataset = d3.select(chooser);
-d3.json(geoJSON2).then(data => {
-  for (var i = 0; i < data.features.length; i++) {
-    console.log(data.features[i].properties.County)
-    var options = selDataset.selectAll('option')
-      .data(Object.values(data.features[i].properties.County))
-      .enter()
-      .append('option')
-      .attr('value', d => { return d; })
-      .text(d => { return d; });
-  }
-})
+
+
+// d3.json(geoJSON2).then(data => {
+//   // Create an array of unique county names
+//   var countyNames = [];
+//   data.features.forEach(feature => {
+//     var countyName = feature.properties.County;
+//     if (!countyNames.includes(countyName)) {
+//       countyNames.push(countyName);
+//     }
+//   });
+
+//   // Use the county names array to create options for the dropdown list
+//   var options = selDataset.selectAll('option')
+//     .data(countyNames)
+//     .enter()
+//     .append('option')
+//     .attr('value', d => { return d; })
+//     .text(d => { return d; });
+// });
 var map = L.map('map').setView([37.8, -96], 4);
 
 var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -82,3 +87,52 @@ function styles(feature) {
       fillOpacity: .7
     };
   }
+var select = d3.select("#dropdown")
+    .append("select")
+    .on("change", function() {
+      var county = this.value;
+      updatePieChart(county);
+    });
+
+    function updatePieChart(county) {
+      var countyData = data.features.filter(function(feature) {
+        return feature.properties.County === county;
+      });
+      var kidsTotal = 0;
+      var seniorsTotal = 0;
+      var adultsTotal = 0;
+      countyData.forEach(function(feature) {
+        kidsTotal += feature.properties.TractKids;
+        seniorsTotal += feature.properties.TractSeniors;
+        adultsTotal += feature.properties.Pop2010 - feature.properties.TractKids - feature.properties.TractSeniors;
+      });
+      var ageData = [      { label: "Kids", value: kidsTotal },      { label: "Seniors", value: seniorsTotal },      { label: "Adults", value: adultsTotal },    ];
+      var labels = ageData.map(function(d) { return d.label; });
+      var values = ageData.map(function(d) { return d.value; });
+      var trace = {
+        type: 'pie',
+        labels: labels,
+        values: values,
+        marker: {
+          colors: ['#feedde', '#fff2cc', '#f7b977']
+        }
+      };
+      var layout = {
+        autosize: false,
+        width: 500,
+        height: 500,
+        margin: {
+          l: 50,
+          r: 50,
+          b: 100,
+          t: 100,
+          pad: 4
+        },
+        plot_bgcolor: '#c7c7c7',
+        title: 'Age distribution in the population'
+      };
+      var chartData = [trace];
+      Plotly.newPlot('piechart', chartData, layout);
+    }
+  
+  // });
