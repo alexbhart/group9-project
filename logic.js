@@ -4,18 +4,30 @@
 var geoJSON2 = 'new_file.json'
 
 d3.json(geoJSON2).then(d => {
-    console.log(d.features[0].properties);
+    console.log(d.features.length);
 })
-
+var chooser = document.getElementById('selDataset')
+var selDataset = d3.select(chooser);
+d3.json(geoJSON2).then(data => {
+  for (var i = 0; i < data.features.length; i++) {
+    console.log(data.features[i].properties.County)
+    var options = selDataset.selectAll('option')
+      .data(Object.values(data.features[i].properties.County))
+      .enter()
+      .append('option')
+      .attr('value', d => { return d; })
+      .text(d => { return d; });
+  }
+})
 var map = L.map('map').setView([37.8, -96], 4);
 
 var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
 d3.json(geoJSON2).then(function(data) {
-
-
+    // var countyName = "";
     geojson = L.geoJson(data, {
             
       style: styles,   
@@ -23,10 +35,11 @@ d3.json(geoJSON2).then(function(data) {
       onEachFeature: function(feature, layer) {
         layer.bindPopup("<strong>" + feature.properties.County + "</strong><br /><br />Diabetes Percentage: " +
         feature.properties.DiagnosedDiabetesPercentage + "<br /><br />Total Population: " + feature.properties.Pop2010);
-          
+        countyName = feature.properties.County;
       }
 
     }).addTo(map);
+    
     var legend = L.control({ position: "bottomleft" });
 
     legend.onAdd = function (map) {
@@ -44,8 +57,9 @@ d3.json(geoJSON2).then(function(data) {
     };
 
     legend.addTo(map);
-}
-)
+    // console.log(countyName);
+
+  })
 var colors = ['#feedde','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#8c2d04']
 function getColor(d) {
     

@@ -23,50 +23,16 @@
 </head>
 
 <body>
-  <!-- <div id="map"></div> -->
-  <!-- <div id="piechart"></div> -->
-  <div id="content">
-
-  </div>
-  <div class="container">
-    
-    <div class="row">
-      <div class="col-md-6 jumbotron text-center">
-        <h1>Food Access & Diabetes</h1>
-        
-      </div>
-      
-    </div>
-    <!-- <div id="map"></div> -->
-    <div class="row">
-      <div class="col-md-2">
-        <div class="well">
-          <h5>County Name:</h5>
-          <!--  -->
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-        
-      </div>
-      <div class="col-md-5">
-        <div id="piechart"></div>
-      </div>
-      <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div id="bubble"></div>
-      </div>
-    </div>
-  </div>
-  <div id="map"></div>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<div id="map"></div>
+<div id="piechart"></div>
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
+  <!-- D3 JavaScript -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <!-- API key -->
+  <!-- <script type="text/javascript" src="static/js/config.js"></script> -->
   <!-- Our JavaScript -->
   <script type="text/javascript" src="logic.js"></script>
   <!-- <script type="text/javascript" src="piechart.js"></script> -->
@@ -75,17 +41,16 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <p>Data Sources:<br />
-  <ul>
-    <li>
-      <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">Economic Research Service U.S.
-        Department of Agriculture</a>
-    </li>
-    <li>
-      <a href="https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html">United States Diabetes Surveillance System</a>
-    </li>
-  </ul>
-  </p>
-
+    <ul>
+        <li>
+            <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">Economic Research Service U.S. Department of Agriculture</a>
+        </li>
+        <li>
+            <a href="https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html">United States Diabetes Surveillance System</a>
+        </li>
+        </ul>
+</p>
+  
 </body>
 
 </html>

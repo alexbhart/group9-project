@@ -12,7 +12,7 @@ html {
   width: 100%
   
 }
-#map {
+#map, .content {
   height: 75%;
   width: 75%
 }
